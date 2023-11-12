@@ -1,0 +1,10 @@
+node_modules
+rdb.sublime-workspace
+README.html
+docs.html
+npm-debug.log
+package-lock.json
+.vscode
+demo.db
+demo*.db*
+coverage

@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: sleep infinity
+    volumes:
+      - ..:/workspace:cached
+      - try-node-node_modules:/workspace/node_modules
+    depends_on: 
+      - mssql
+      # - postgres
+      # - mysql
+      # - sapase
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=P@assword123
+    ports:
+      - 14330:1433
+  # postgres:
+  #   image: postgres
+  #   environment:
+  #     - POSTGRES_PASSWORD=postgres
+  #     - POSTGRES_DB=postgres
+  #   ports:
+  #     - 14332:5432
+  # mysql:
+  #   image: mysql:8.0.31
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=test
+  #     - MYSQL_DATABASE=test
+  #     - MYSQL_USER=test
+  #     - MYSQL_PASSWORD=test
+  #   ports:
+  #     - 3306:3306
+  # sapase:
+  #   image: larsroald/ase-server    
+  #   hostname: sapase
+  #   ports:
+  #     - 50000:5000
+volumes:
+  try-node-node_modules:
