@@ -61,7 +61,7 @@ order.lines.push({
 order.orderDate = new Date();
 await order.saveChanges();
 
-const filter2 = db.order.lines.any(x => x.product.eq('sopelime'));
+const filter2 = db.order.lines.all(x => x.product.contains('trylle'));
 const orders = await db.order.getMany( filter2, { lines: true, deliveryAddress: true, customer: true});
 
 console.dir(orders, { depth: Infinity });
