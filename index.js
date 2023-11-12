@@ -6,7 +6,7 @@ const db = map.mssql('Server=mssql;Database=master;uid=sa;pwd=P@assword123;Trust
 
 await init(db);
 
-rdb.on('query', console.dir);
+// rdb.on('query', console.dir);
 
 const harry = await db.customer.insert({
     name: 'Harry'
@@ -20,6 +20,39 @@ const hermine = await db.customer.insert({
     name: 'Hermine'
 });
 
-console.dir(wolfgang)
-console.dir(harry);
-console.dir(hermine);
+const orders = await db.order.insert([{
+    customer: harry,
+    orderDate: new Date(),
+    deliveryAddress: {
+        postalPlace: 'Surrey'
+    },
+    lines: [{
+        product: 'tryllestav'
+    }, {
+        product: 'sopelime'
+    }]
+}, {
+    customer: {
+        id: wolfgang.id
+    },
+    orderDate: '1780-01-27T13:30:23',
+    deliveryAddress: {
+        postalPlace: 'Salzburg'
+    },
+    lines: [{
+        product: 'tryllefløyte'
+    }]
+}, {
+    orderDate: new Date(),
+    customerId: hermine.id,
+    deliveryAddress: {
+        postalPlace: 'Hampstead'
+    },
+    lines: [{
+        product: 'bok om monster'
+    }, {
+        product: 'sopelime'
+    }]
+}], {customer: true, deliveryAddress: true, lines: true});
+
+console.dir(orders, { depth: Infinity });
