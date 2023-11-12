@@ -31,7 +31,7 @@ CREATE TABLE deliveryAddress (
 )
 `;
 
-module.exports = async function(db) {
+export default async function(db) {
 	const statements = sql.split(';');
 	for (let i = 0; i < statements.length; i++) {
 		await db.query(statements[i]);
