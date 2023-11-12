@@ -20,7 +20,7 @@ const hermine = await db.customer.insert({
     name: 'Hermine'
 });
 
-const orders = await db.order.insert([{
+await db.order.insert([{
     customer: harry,
     orderDate: new Date(),
     deliveryAddress: {
@@ -61,4 +61,7 @@ order.lines.push({
 order.orderDate = new Date();
 await order.saveChanges();
 
-console.dir(order, { depth: Infinity });
+const filter2 = db.order.lines.any(x => x.product.eq('sopelime'));
+const orders = await db.order.getMany( filter2, { lines: true, deliveryAddress: true, customer: true});
+
+console.dir(orders, { depth: Infinity });
