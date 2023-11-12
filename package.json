@@ -2,10 +2,15 @@
   "name": "rdb-tutorial",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "rdb": "^3.2.7",
+    "tedious": "^16.6.0"
+  }
 }
