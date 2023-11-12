@@ -16,5 +16,10 @@ const wolfgang = await db.customer.insert({
     name: 'Wolgang'
 });
 
+const hermine = await db.customer.insert({
+    name: 'Hermine'
+});
+
 console.dir(wolfgang)
 console.dir(harry);
+console.dir(hermine);
