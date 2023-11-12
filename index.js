@@ -6,7 +6,7 @@ const db = map.mssql('Server=mssql;Database=master;uid=sa;pwd=P@assword123;Trust
 
 await init(db);
 
-// rdb.on('query', console.dir);
+rdb.on('query', console.dir);
 
 const harry = await db.customer.insert({
     name: 'Harry'
@@ -20,7 +20,7 @@ const hermine = await db.customer.insert({
     name: 'Hermine'
 });
 
-const orders = await db.order.insert([{
+await db.order.insert([{
     customer: harry,
     orderDate: new Date(),
     deliveryAddress: {
@@ -50,9 +50,18 @@ const orders = await db.order.insert([{
     },
     lines: [{
         product: 'bok om monster'
-    }, {
-        product: 'sopelime'
     }]
-}], {customer: true, deliveryAddress: true, lines: true});
+}], { customer: true, deliveryAddress: true, lines: true });
+
+const filter = db.order.customer.name.eq('Hermine');
+const order = await db.order.getOne(filter, { lines: true })
+order.lines.push({
+    product: 'sopelime'
+});
+order.orderDate = new Date();
+await order.saveChanges();
+
+const filter2 = db.order.lines.all(x => x.product.contains('trylle')).or(db.order.deliveryAddress.postalPlace.contains('Hamp'));
+const orders = await db.order.getMany( filter2, { lines: true, deliveryAddress: true, customer: true});
 
 console.dir(orders, { depth: Infinity });
