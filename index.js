@@ -51,6 +51,14 @@ const orders = await db.order.insert([{
     lines: [{
         product: 'bok om monster'
     }]
-}], {customer: true, deliveryAddress: true, lines: true});
+}], { customer: true, deliveryAddress: true, lines: true });
 
-console.dir(orders, { depth: Infinity });
+const filter = db.order.customer.name.eq('Hermine');
+const order = await db.order.getOne(filter, { lines: true })
+order.lines.push({
+    product: 'sopelime'
+});
+order.orderDate = new Date();
+await order.saveChanges();
+
+console.dir(order, { depth: Infinity });
