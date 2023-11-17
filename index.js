@@ -1,12 +1,10 @@
-// import rdb from 'rdb';
+import rdb from 'rdb';
 import map from './map.js';
 import init from './init.js';
 
 const db = map.mssql('Server=mssql;Database=master;uid=sa;pwd=P@assword123;TrustServerCertificate=yes;Trusted_Connection=No');
 
 await init(db);
-
-// rdb.on('query', console.dir);
 
 const harry = await db.customer.insert({
     name: 'Harry'
@@ -58,6 +56,7 @@ order.lines.push({
     product: 'book of monsters'
 });
 order.orderDate = new Date();
+// rdb.on('query', console.dir);
 await order.saveChanges();
 
 const filter2 = db.order.lines.all(x => x.product.contains('magic')).or(db.order.deliveryAddress.postalPlace.contains('Hamp'));
