@@ -1,4 +1,4 @@
-import rdb from 'rdb';
+// import rdb from 'rdb';
 import map from './map.js';
 import init from './init.js';
 
@@ -6,7 +6,7 @@ const db = map.mssql('Server=mssql;Database=master;uid=sa;pwd=P@assword123;Trust
 
 await init(db);
 
-rdb.on('query', console.dir);
+// rdb.on('query', console.dir);
 
 const harry = await db.customer.insert({
     name: 'Harry'
@@ -27,9 +27,9 @@ await db.order.insert([{
         postalPlace: 'Surrey'
     },
     lines: [{
-        product: 'tryllestav'
+        product: 'magic wand'
     }, {
-        product: 'sopelime'
+        product: 'broomstick'
     }]
 }, {
     customer: {
@@ -40,7 +40,7 @@ await db.order.insert([{
         postalPlace: 'Salzburg'
     },
     lines: [{
-        product: 'tryllefløyte'
+        product: 'magic flute'
     }]
 }, {
     orderDate: new Date(),
@@ -49,19 +49,18 @@ await db.order.insert([{
         postalPlace: 'Hampstead'
     },
     lines: [{
-        product: 'bok om monster'
+        product: 'magic wand'
     }]
 }], { customer: true, deliveryAddress: true, lines: true });
 
-const filter = db.order.customer.name.eq('Hermine');
-const order = await db.order.getOne(filter, { lines: true })
+const order = await db.order.getOne( db.order.customer.name.eq('Hermine') , { lines: true })
 order.lines.push({
-    product: 'sopelime'
+    product: 'book of monsters'
 });
 order.orderDate = new Date();
 await order.saveChanges();
 
-const filter2 = db.order.lines.all(x => x.product.contains('trylle')).or(db.order.deliveryAddress.postalPlace.contains('Hamp'));
-const orders = await db.order.getMany(filter2, { lines: { orderBy: 'product desc' }, deliveryAddress: true, customer: true, orderBy: 'orderDate desc', limit: 1 });
+const filter2 = db.order.lines.all(x => x.product.contains('magic')).or(db.order.deliveryAddress.postalPlace.contains('Hamp'));
+const orders = await db.order.getMany(filter2, { lines: { orderBy: 'product desc' }, deliveryAddress: true, customer: true, orderBy: 'orderDate desc' });
 
 console.dir(orders, { depth: Infinity });
