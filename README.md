@@ -30,6 +30,8 @@ Ensure your project directory contains the `docker-compose.yml` and `devcontaine
 
 5. **Development**:
    - Develop within the container. All defined extensions and settings in `devcontainer.json` will be available.
+   - Run ```npm install```
+   - Run ```node index.js```
 
 ## Note
 
