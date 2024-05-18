@@ -1,4 +1,4 @@
-import rdb from 'rdb';
+import orange from 'orange-orm';
 import map from './map.js';
 import init from './init.js';
 
@@ -56,7 +56,7 @@ order.lines.push({
     product: 'book of monsters'
 });
 order.orderDate = new Date();
-// rdb.on('query', console.dir);
+orange.on('query', console.dir);
 await order.saveChanges();
 
 const filter2 = db.order.lines.all(x => x.product.contains('magic')).or(db.order.deliveryAddress.postalPlace.contains('Hamp'));

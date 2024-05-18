@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "rdb": "^3.2.7",
+    "orange-orm": "^3.10.2",
     "tedious": "^16.6.0"
   }
 }
