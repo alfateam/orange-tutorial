@@ -40,8 +40,8 @@ await db.order.insertAndForget([{
         postalPlace: 'Salzburg'
     },
     lines: [{
-        product: 'magic wand',
-        amount: 100
+        product: 'magic flute',
+        amount: 300
     }]
 }, {
     orderDate: new Date(),
@@ -51,7 +51,7 @@ await db.order.insertAndForget([{
     },
     lines: [{
         product: 'book of monsters',
-        amount: 300
+        amount: 400
     }]
 }]);
 
