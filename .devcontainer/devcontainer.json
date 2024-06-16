@@ -1,5 +1,5 @@
 {
-	"name": "rdb-tutorial",
+	"name": "orange",
 	"dockerComposeFile": ["docker-compose.yml"],
 	"workspaceFolder": "/workspace",
 	"service": "app",
