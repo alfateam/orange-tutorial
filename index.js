@@ -76,3 +76,16 @@ const orders = await db.order.getAll({
 });
 
 console.dir(orders, { depth: Infinity });
+
+const aggregate = await db.order.aggregate({
+    customerName: x => x.customer.name,
+    postalPlace: x => x.deliveryAddress.postalPlace,
+    total: x => x.sum(x => x.lines.amount),
+    avg: x => x.avg(x => x.lines.amount),
+    max: x => x.max(x => x.lines.amount),
+    min: x => x.min(x => x.lines.amount),
+    noLines: x => x.count(x => x.lines.amount)
+});
+
+console.dir(aggregate, { depth: Infinity});
+
