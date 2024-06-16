@@ -20,7 +20,8 @@ CREATE TABLE _order (
 CREATE TABLE orderLine (
     id int IDENTITY(1,1) PRIMARY KEY,
     orderId INTEGER REFERENCES _order,
-    product VARCHAR(100)
+    product VARCHAR(100),
+    amount NUMERIC DEFAULT(0)
 );
 
 CREATE TABLE deliveryAddress (

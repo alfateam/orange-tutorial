@@ -15,6 +15,7 @@ const map = rdb.map(x => {
                 id: v.column('id').numeric().primary(),
                 orderId: v.column('orderId').numeric(),
                 product: v.column('product').string(),
+                amount: v.column('amount').numeric()
             }
         }),
 
