@@ -1,5 +1,5 @@
 {
-  "name": "rdb-tutorial",
+  "name": "orange-tutorial",
   "version": "1.0.0",
   "description": "",
   "type": "module",
@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "rdb": "^3.2.7",
-    "tedious": "^16.6.0"
+    "orange-orm": "^4.1.3",
+    "tedious": "^18.2.0"
   }
 }

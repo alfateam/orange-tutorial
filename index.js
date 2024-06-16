@@ -1,12 +1,10 @@
-import rdb from 'rdb';
-import map from './map.js';
+import orange from 'orange-orm';
 import init from './init.js';
-
-const db = map.mssql('Server=mssql;Database=master;uid=sa;pwd=P@assword123;TrustServerCertificate=yes;Trusted_Connection=No');
+import db from './db.js';
 
 await init(db);
 
-rdb.on('query', console.dir);
+orange.on('query', console.dir);
 
 const harry = await db.customer.insert({
     name: 'Harry'
@@ -20,16 +18,18 @@ const hermine = await db.customer.insert({
     name: 'Hermine'
 });
 
-await db.order.insert([{
+await db.order.insertAndForget([{
     customer: harry,
     orderDate: new Date(),
     deliveryAddress: {
         postalPlace: 'Surrey'
     },
     lines: [{
-        product: 'tryllestav'
+        product: 'magic wand',
+        amount: 100,
     }, {
-        product: 'sopelime'
+        product: 'broomstick',
+        amount: 200
     }]
 }, {
     customer: {
@@ -40,7 +40,8 @@ await db.order.insert([{
         postalPlace: 'Salzburg'
     },
     lines: [{
-        product: 'tryllefløyte'
+        product: 'magic wand',
+        amount: 100
     }]
 }, {
     orderDate: new Date(),
@@ -49,19 +50,29 @@ await db.order.insert([{
         postalPlace: 'Hampstead'
     },
     lines: [{
-        product: 'bok om monster'
+        product: 'book of monsters',
+        amount: 300
     }]
-}], { customer: true, deliveryAddress: true, lines: true });
+}]);
 
-const filter = db.order.customer.name.eq('Hermine');
-const order = await db.order.getOne(filter, { lines: true })
+const order = await db.order.getOne(undefined, {
+    where: x => x.customer.name.eq('Hermine'),
+    lines: true
+})
 order.lines.push({
-    product: 'sopelime'
+    product: 'broomstick',
+    amount: 200
 });
 order.orderDate = new Date();
 await order.saveChanges();
 
-const filter2 = db.order.lines.all(x => x.product.contains('trylle')).or(db.order.deliveryAddress.postalPlace.contains('Hamp'));
-const orders = await db.order.getMany(filter2, { lines: { orderBy: 'product desc' }, deliveryAddress: true, customer: true, orderBy: 'orderDate desc', limit: 1 });
+const orders = await db.order.getAll({
+    totalAmount: x => x.sum( x => x.lines.amount),
+    avgAmount: x => x.avg( x => x.lines.amount),
+    noLines: x => x.count( x => x.lines.amount),
+    deliveryAddress: true,
+    customerName: x => x.customer.name,
+    orderBy: 'orderDate desc'    
+});
 
 console.dir(orders, { depth: Infinity });
