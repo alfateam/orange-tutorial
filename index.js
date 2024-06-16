@@ -1,12 +1,10 @@
-import rdb from 'rdb';
-import map from './map.js';
+import orange from 'orange-orm';
+import db from './db.js';
 import init from './init.js';
-
-const db = map.mssql('Server=mssql;Database=master;uid=sa;pwd=P@assword123;TrustServerCertificate=yes;Trusted_Connection=No');
 
 await init(db);
 
-rdb.on('query', console.dir);
+orange.on('query', console.dir);
 
 const harry = await db.customer.insert({
     name: 'Harry'
@@ -27,9 +25,9 @@ const orders = await db.order.insert([{
         postalPlace: 'Surrey'
     },
     lines: [{
-        product: 'tryllestav'
+        product: 'magic wand'
     }, {
-        product: 'sopelime'
+        product: 'broomstick'
     }]
 }, {
     customer: {
@@ -40,7 +38,7 @@ const orders = await db.order.insert([{
         postalPlace: 'Salzburg'
     },
     lines: [{
-        product: 'tryllefløyte'
+        product: 'magic flute'
     }]
 }, {
     orderDate: new Date(),
@@ -49,7 +47,7 @@ const orders = await db.order.insert([{
         postalPlace: 'Hampstead'
     },
     lines: [{
-        product: 'bok om monster'
+        product: 'boof of monsters'
     }]
 }], {customer: true, deliveryAddress: true, lines: true});
 
