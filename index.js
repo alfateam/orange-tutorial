@@ -67,10 +67,9 @@ order.orderDate = new Date();
 await order.saveChanges();
 
 const orders = await db.order.getAll({
-    where: x => x.lines.all(x => x.product.contains('magic')),
+    where: x => x.lines.all(x => x.product.contains('magic')).not(),
     lines: true,
-    deliveryAddress:
-        true,
+    deliveryAddress: true,
     customer: true
 });
 
