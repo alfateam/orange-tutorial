@@ -25,9 +25,11 @@ await db.order.insertAndForget([{
         postalPlace: 'Surrey'
     },
     lines: [{
-        product: 'magic wand'
+        product: 'magic wand',
+        amount: 100,
     }, {
-        product: 'broomstick'
+        product: 'broomstick',
+        amount: 200
     }]
 }, {
     customer: {
@@ -38,7 +40,8 @@ await db.order.insertAndForget([{
         postalPlace: 'Salzburg'
     },
     lines: [{
-        product: 'magic flute'
+        product: 'magic flute',
+        amount: 300
     }]
 }, {
     orderDate: new Date(),
@@ -47,7 +50,8 @@ await db.order.insertAndForget([{
         postalPlace: 'Hampstead'
     },
     lines: [{
-        product: 'book of monsters'
+        product: 'book of monsters',
+        amount: 400
     }]
 }]);
 
@@ -56,7 +60,8 @@ const order = await db.order.getOne(undefined, {
     lines: true
 })
 order.lines.push({
-    product: 'broomstick'
+    product: 'broomstick',
+    amount: 200
 });
 order.orderDate = new Date();
 await order.saveChanges();
