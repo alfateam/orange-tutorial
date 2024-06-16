@@ -1,6 +1,6 @@
-import rdb from 'rdb';
+import orange from 'orange-orm';
 
-const map = rdb.map(x => {
+const map = orange.map(x => {
     return {
         order: x.table('_order').map(v => {
             return {

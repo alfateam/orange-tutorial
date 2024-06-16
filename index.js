@@ -1,12 +1,10 @@
-import rdb from 'rdb';
-import map from './map.js';
+import orange from 'orange-orm';
 import init from './init.js';
-
-const db = map.mssql('Server=mssql;Database=master;uid=sa;pwd=P@assword123;TrustServerCertificate=yes;Trusted_Connection=No');
+import db from './db.js';
 
 await init(db);
 
-rdb.on('query', console.dir);
+orange.on('query', console.dir);
 
 const harry = await db.customer.insert({
     name: 'Harry'
