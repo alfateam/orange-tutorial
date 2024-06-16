@@ -1,12 +1,10 @@
-import rdb from 'rdb';
-import map from './map.js';
+import orange from 'orange-orm';
 import init from './init.js';
-
-const db = map.mssql('Server=mssql;Database=master;uid=sa;pwd=P@assword123;TrustServerCertificate=yes;Trusted_Connection=No');
+import db from './db.js';
 
 await init(db);
 
-rdb.on('query', console.dir);
+orange.on('query', console.dir);
 
 const harry = await db.customer.insert({
     name: 'Harry'
@@ -20,16 +18,16 @@ const hermine = await db.customer.insert({
     name: 'Hermine'
 });
 
-const orders = await db.order.insert([{
+await db.order.insertAndForget([{
     customer: harry,
     orderDate: new Date(),
     deliveryAddress: {
         postalPlace: 'Surrey'
     },
     lines: [{
-        product: 'tryllestav'
+        product: 'magic wand'
     }, {
-        product: 'sopelime'
+        product: 'broomstick'
     }]
 }, {
     customer: {
@@ -40,7 +38,7 @@ const orders = await db.order.insert([{
         postalPlace: 'Salzburg'
     },
     lines: [{
-        product: 'tryllefløyte'
+        product: 'magic flute'
     }]
 }, {
     orderDate: new Date(),
@@ -49,14 +47,16 @@ const orders = await db.order.insert([{
         postalPlace: 'Hampstead'
     },
     lines: [{
-        product: 'bok om monster'
+        product: 'book of monsters'
     }]
-}], { customer: true, deliveryAddress: true, lines: true });
+}]);
 
-const filter = db.order.customer.name.eq('Hermine');
-const order = await db.order.getOne(filter, { lines: true })
+const order = await db.order.getOne(undefined, {
+    where: x => x.customer.name.eq('Hermine'),
+    lines: true
+})
 order.lines.push({
-    product: 'sopelime'
+    product: 'broomstick'
 });
 order.orderDate = new Date();
 await order.saveChanges();
