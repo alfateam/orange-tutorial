@@ -66,4 +66,12 @@ order.lines.push({
 order.orderDate = new Date();
 await order.saveChanges();
 
-console.dir(order, { depth: Infinity });
+const orders = await db.order.getAll({
+    where: x => x.lines.any(x => x.product.eq('broomstick')),
+    lines: true,
+    deliveryAddress:
+        true,
+    customer: true
+});
+
+console.dir(orders, { depth: Infinity });
